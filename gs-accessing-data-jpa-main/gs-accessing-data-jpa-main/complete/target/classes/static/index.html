@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>SuperApp de Personajes</title>
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #3498db;
+      --accent: #e74c3c;
+      --light: #ecf0f1;
+      --dark: #2c3e50;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      background: #f8f9fa;
+      color: var(--dark);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: var(--primary);
+      border-bottom: 3px solid var(--secondary);
+      padding-bottom: 0.5rem;
+      margin: 2rem 0 1.5rem;
+      font-size: 2.2rem;
+    }
+
+    h2 {
+      color: var(--secondary);
+      margin: 2rem 0 1rem;
+      font-size: 1.5rem;
+    }
+
+    .section-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    input, select, button {
+      padding: 0.8rem;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--secondary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+
+    button {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    button:hover {
+      background: #2980b9;
+      transform: translateY(-1px);
+    }
+
+    table {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 10px rgba(0,0,0,0.1);
+      margin: 1.5rem 0;
+    }
+
+    th {
+      background: var(--primary);
+      color: white;
+      padding: 1rem;
+      text-align: left;
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    tr:hover {
+      background: #f8f9fa;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25em 0.6em;
+      border-radius: 20px;
+      font-size: 0.85em;
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    #form-relacion button { background: var(--accent); }
+    #form-relacion button:hover { background: #c0392b; }
+    #form-uso button { background: #27ae60; }
+    #form-uso button:hover { background: #219a52; }
+  </style>
+</head>
+<body>
+
+<div class="section-card">
+  <!-- 1) PERSONAJES -->
+  <h2>Crear Nuevo Personaje</h2>
+  <form id="form-personaje">
+    <input name="nombre" placeholder="Nombre" required>
+    <input name="origen" placeholder="Origen" required>
+    <input name="rol" placeholder="Rol" required>
+    <input name="alineacion" placeholder="Alineación" required>
+    <button type="submit">➕ Añadir Personaje</button>
+  </form>
+
+  <h1>Lista de Personajes</h1>
+  <table id="tabla-personajes">
+    <thead>
+    <tr>
+      <th>ID</th><th>Nombre</th><th>Origen</th><th>Rol</th><th>Alineación</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="section-card">
+  <!-- 2) ORGANIZACIONES -->
+  <h2>Crear Nueva Organización</h2>
+  <form id="form-organizacion">
+    <input name="nombre" placeholder="Nombre" required>
+    <input name="ciudadBase" placeholder="Ciudad Base" required>
+    <input name="tipo" placeholder="Tipo" required>
+    <button type="submit">🏢 Añadir Organización</button>
+  </form>
+
+  <h1>Organizaciones Registradas</h1>
+  <table id="tabla-organizaciones">
+    <thead>
+    <tr>
+      <th>ID</th><th>Nombre</th><th>Ciudad Base</th><th>Tipo</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="section-card">
+  <!-- 3) USO DE TECNOLOGÍAS -->
+  <h2>Registrar Uso de Tecnología</h2>
+  <form id="form-uso">
+    <select id="select-uso-personaje" required>
+      <option value="">— Personaje —</option>
+    </select>
+    <select id="select-uso-tecnologia" required>
+      <option value="">— Tecnología —</option>
+    </select>
+    <button type="submit">🔗 Vincular Tecnología</button>
+  </form>
+
+  <h1>Relaciones Tecnológicas</h1>
+  <table id="tabla-uso">
+    <thead>
+    <tr>
+      <th>Personaje</th><th>Tecnología</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="section-card">
+  <!-- 4) RELACIONES -->
+  <h2>Registrar Nueva Relación</h2>
+  <form id="form-relacion">
+    <select id="select-rel-personajeA" required>
+      <option value="">— Personaje A —</option>
+    </select>
+    <select id="select-rel-personajeB" required>
+      <option value="">— Personaje B —</option>
+    </select>
+    <input id="input-tipo-rel" placeholder="Tipo de Relación" required>
+    <button type="submit">🤝 Establecer Relación</button>
+  </form>
+
+  <h1>Red de Relaciones</h1>
+  <table id="tabla-relaciones">
+    <thead>
+    <tr>
+      <th>Personaje A</th><th>Personaje B</th><th>Tipo</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+
+<script>
+  // Base de tu API
+  const base = window.location.origin;
+  const API = {
+    personajes:     '/personajes',
+    organizaciones: '/organizaciones',
+    tecnologias:    '/tecnologias',
+    usoTecnologias: '/usoTecnologias',
+    relaciones:     '/relaciones'
+  };
+
+  // ---------------- Helpers ----------------
+  function extraerIdDeLink(linkObj) {
+    const href = linkObj.self.href;
+    return href.substring(href.lastIndexOf('/') + 1);
+  }
+
+  async function fetchJSON(url, opts) {
+    const res = await fetch(url, opts);
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+    return res.json();
+  }
+
+  function llenarSelect(selector, lista, textoProp) {
+    const sel = document.querySelector(selector);
+    // conserva solo la placeholder
+    [...sel.options]
+      .filter(o => o.value !== '')
+      .forEach(o => sel.remove(o.index));
+    lista.forEach(item => {
+      const opt = document.createElement('option');
+      opt.value = extraerIdDeLink(item._links);
+      opt.text  = item[textoProp];
+      sel.appendChild(opt);
+    });
+  }
+
+  // ------------- PERSONAJES -------------
+  async function cargarPersonajes() {
+    const { _embedded } = await fetchJSON(base + API.personajes);
+    const lista = _embedded.personajes;
+    const tbody = document.querySelector('#tabla-personajes tbody');
+    tbody.innerHTML = '';
+    lista.forEach(p => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${extraerIdDeLink(p._links)}</td>
+        <td>${p.nombre}</td>
+        <td>${p.origen}</td>
+        <td>${p.rol}</td>
+        <td>${p.alineacion}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+    // rellena dropdowns que usan personajes
+    llenarSelect('#select-uso-personaje', lista, 'nombre');
+    llenarSelect('#select-rel-personajeA', lista, 'nombre');
+    llenarSelect('#select-rel-personajeB', lista, 'nombre');
+  }
+  document.querySelector('#form-personaje')
+    .addEventListener('submit', async e => {
+      e.preventDefault();
+      const f = e.target;
+      const body = {
+        nombre:     f.nombre.value,
+        origen:     f.origen.value,
+        rol:        f.rol.value,
+        alineacion: f.alineacion.value
+      };
+      await fetchJSON(base + API.personajes, {
+        method: 'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+      });
+      f.reset();
+      await cargarPersonajes();
+    });
+
+  // ----------- ORGANIZACIONES -----------
+  async function cargarOrganizaciones() {
+    const { _embedded } = await fetchJSON(base + API.organizaciones);
+    const lista = _embedded.organizaciones;
+    const tbody = document.querySelector('#tabla-organizaciones tbody');
+    tbody.innerHTML = '';
+    lista.forEach(o => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${extraerIdDeLink(o._links)}</td>
+        <td>${o.nombre}</td>
+        <td>${o.ciudadBase}</td>
+        <td>${o.tipo}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+  document.querySelector('#form-organizacion')
+    .addEventListener('submit', async e => {
+      e.preventDefault();
+      const f = e.target;
+      const body = {
+        nombre:     f.nombre.value,
+        ciudadBase: f.ciudadBase.value,
+        tipo:       f.tipo.value
+      };
+      await fetchJSON(base + API.organizaciones, {
+        method: 'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+      });
+      f.reset();
+      await cargarOrganizaciones();
+    });
+
+  // ------------ TECNOLOGÍAS ------------
+  async function cargarTecnologias() {
+    const { _embedded } = await fetchJSON(base + API.tecnologias);
+    return _embedded.tecnologias;
+  }
+
+  // ------- USO DE TECNOLOGÍA -------
+  async function cargarUsoTecnologias() {
+  // pide la lista YA con personaje y tecnología embebidos
+  const url = base + API.usoTecnologias + '?projection=withDetails';
+  const { _embedded } = await fetchJSON(url);
+  const lista = _embedded.usoTecnologias;
+  const tbody = document.querySelector('#tabla-uso tbody');
+  tbody.innerHTML = '';
+  lista.forEach(u => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${u.personaje.nombre}</td>
+      <td>${u.tecnologia.nombre}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+  document.querySelector('#form-uso')
+    .addEventListener('submit', async e => {
+      e.preventDefault();
+      const persId = document.querySelector('#select-uso-personaje').value;
+      const tecId  = document.querySelector('#select-uso-tecnologia').value;
+      const body = {
+        personaje:  `${base}${API.personajes}/${persId}`,
+        tecnologia: `${base}${API.tecnologias}/${tecId}`
+      };
+      await fetchJSON(base + API.usoTecnologias, {
+        method: 'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+      });
+      await cargarUsoTecnologias();
+    });
+
+  // ----------- RELACIONES -----------
+  async function cargarRelaciones() {
+  const url = base + API.relaciones + '?projection=withDetails';
+  const { _embedded } = await fetchJSON(url);
+  const lista = _embedded.relaciones;
+  const tbody = document.querySelector('#tabla-relaciones tbody');
+  tbody.innerHTML = '';
+  lista.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${r.personajeA.nombre}</td>
+      <td>${r.personajeB.nombre}</td>
+      <td>${r.tipoRelacion}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+  document.querySelector('#form-relacion')
+    .addEventListener('submit', async e => {
+      e.preventDefault();
+      const a    = document.querySelector('#select-rel-personajeA').value;
+      const b    = document.querySelector('#select-rel-personajeB').value;
+      const tipo = document.querySelector('#input-tipo-rel').value;
+      const body = {
+        personajeA:   `${base}${API.personajes}/${a}`,
+        personajeB:   `${base}${API.personajes}/${b}`,
+        tipoRelacion: tipo
+      };
+      await fetchJSON(base + API.relaciones, {
+        method: 'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+      });
+      await cargarRelaciones();
+    });
+
+  // ------- INICIALIZACIÓN -------
+  window.addEventListener('DOMContentLoaded', async () => {
+    await cargarPersonajes();
+    await cargarOrganizaciones();
+    const tecnos = await cargarTecnologias();
+    llenarSelect('#select-uso-tecnologia', tecnos, 'nombre');
+    await cargarUsoTecnologias();
+    await cargarRelaciones();
+  });
+  //VERSION ESTABLE
+</script>
+</body>
+</html>
